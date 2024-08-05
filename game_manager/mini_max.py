@@ -10,7 +10,7 @@ score_human = -10
 score_comp = 10
 
 class mini_max():
-    def __init__(self, depth, table, stage):
+    def __init__(self,depth, table, stage):
         self.n = stage
         self.level = depth
         self.board = table
@@ -24,32 +24,32 @@ class mini_max():
         result = self.check_win(self.board)
 
         if result == win:
-            return (score_comp, 0) if user == helper.player.O else (score_human, 0)
+            return score_comp if user == helper.player.O else score_human
         if result == tie:
-            return score_tie, 0
+            return score_tie
 
         if is_maximizing:
             best_score = -float('inf')
             for i in range(self.n ** 2):
-                if depth > self.level:
-                    return best_score, i
+                if i >= self.level:
+                    return best_score
                 if self.board[i] == " ":
                     self.board[i] = user.name
-                    score, _ = self.mini_max(self.board, depth + 1, False, helper.player.X if user == helper.player.O else helper.player.O)
+                    score = self.mini_max(self.board, depth + 1, False, helper.player.X if user == helper.player.O else helper.player.O)
                     self.board[i] = " "
                     best_score = max(score, best_score)
-            return best_score, i
+            return best_score
         else:
             best_score = float('inf')
             for i in range(self.n ** 2):
-                if depth > self.level:
-                    return best_score, i
+                if i >= self.level:
+                    return best_score
                 if self.board[i] == " ":
                     self.board[i] = user.name
-                    score, _ = self.mini_max(self.board, depth + 1, True, helper.player.X if user == helper.player.O else helper.player.O)
+                    score = self.mini_max(self.board, depth + 1, True, helper.player.X if user == helper.player.O else helper.player.O)
                     self.board[i] = " "
                     best_score = min(score, best_score)
-            return best_score, i
+            return best_score
 
     def check_line(self, start, step, length):
         first = self.board[start]

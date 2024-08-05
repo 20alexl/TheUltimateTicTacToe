@@ -11,16 +11,17 @@ win = 2
 class game:
     def __init__(self, cur_level):
         self.level = cur_level
+        self.depth = self.level.level * 2
         self.user = helper.player.X
         self.board = b.board(self.level.stage)
-        self.mini_max = mini_max.mini_max(self.level.level * 2, self.board.board, self.board._size)
+        self.mini_max = mini_max.mini_max(self.depth, self.board.board, self.board._size)
         self.boiler(self.level.level, self.level.stage)
         if self.level.level == 1:
             self.board.example_board(self.level.stage)
     
     def boiler(self, level, stage):
         print(f"----------------------------------------------------------------------")
-        print(f"--------------------------STAGE {stage} ---- LEVEL {level}------------------------")
+        print(f"--------------------------STAGE {stage-2} ---- LEVEL {level}------------------------")
         print(f"----------------------------------------------------------------------")
 
     def switch(self):
@@ -58,14 +59,15 @@ class game:
             else:
                 best_score = -float('inf')
                 best_move = None
-                for i in range(9):
-                    if self.board.board[i] == " ":
-                        self.board.board[i] = self.user.name
-                        score, _ = self.mini_max.mini_max(self.board.board, 0, True, helper.player.O)
-                        self.board.board[i] = " "
-                        if score > best_score:
-                            best_score = score
-                            best_move = i
+                for i in range(self.level.stage ** 2):
+                    if self.depth > self.level.level:
+                        if self.board.board[i] == " ":
+                            self.board.board[i] = self.user.name
+                            score = self.mini_max.mini_max(self.board.board, 0, True, helper.player.O)
+                            self.board.board[i] = " "
+                            if score > best_score:
+                                best_score = score
+                                best_move = i
                 if best_move is not None:
                     self.board.board[best_move] = self.user.name
                     self.board.print_board()
