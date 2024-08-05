@@ -24,6 +24,7 @@ class end_game:
 
     def lost(self):
         # Lost a life
+        self.score -= 1
         self._lives -= 1
 
     def game_over(self):

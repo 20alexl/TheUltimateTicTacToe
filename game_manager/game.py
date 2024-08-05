@@ -78,7 +78,7 @@ class game:
         result = self.mini_max.check_win(self.board.board)
         if result == win:
             print(f"Player {self.user.name} wins!!!")
+            return self.user.name
         else:
             print(f"Tie!!!")
-
-        return self.user.name
+            return "tie"

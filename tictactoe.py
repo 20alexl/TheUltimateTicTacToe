@@ -21,6 +21,8 @@ if __name__ == "__main__":
         elif winner == "O":
             level_manager.advance()
             helper.lost()
+        else:
+            level_manager.advance()
 
         if helper.game_over():
             helper.credits(level_manager)
