@@ -1,19 +1,23 @@
 #main.py
-import game_manager as g
-import level_manager as l
-import helpers as h
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
-def main(level):
+from src import game_manager as g
+from src import level_manager as l
+from src import helpers as h
+
+def main(level, tog):
     # Initialize the game with level manager
-    game = g.game.game(level)
+    game = g.game.game(level, tog)
     return game.start()
-    #game.board.print_board()
 
 if __name__ == "__main__":
     level_manager = l.level.LevelManager()
     helper = h.helper.end_game()
+    tehe = False #allow computer to go first cause why not(got very boring going first)
     while True:
-        winner = main(level_manager)
+        winner = main(level_manager, tehe)
 
         if winner == "X":
             helper.score += 1
@@ -32,3 +36,6 @@ if __name__ == "__main__":
             if again not in ["y","Y","yes", "YES"]:
                 helper.credits(level_manager)
                 break
+        tehe = not tehe
+
+
