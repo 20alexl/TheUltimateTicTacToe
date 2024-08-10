@@ -14,45 +14,49 @@ score_human = -10
 score_comp = 10
 
 class mini_max():
-    def __init__(self,depth, table, stage):
+    def __init__(self,depth, stage):
         self.n = stage
         self.level = depth
-        self.board = table
         self.mini = float('inf')
         self.maxi = float('-inf')
         self.mini_index = None
         self.maxi_index = None
 
     def mini_max(self, table, depth, is_maximizing, user):
-        self.board = table
-        result = self.check_win(self.board)
+        result = self.check_win(table)
 
         if result == win:
-            return score_comp if user.current() == helper.Player.O else score_human
+            return score_comp - depth if user == helper.Player.O else score_human + depth
         if result == tie:
             return score_tie
 
         if is_maximizing:
-            best_score = -float('inf')
+            best_score = -1000
             for i in range(self.n ** 2):
-                if i >= self.level:
-                    return best_score
-                if self.board[i] == " ":
-                    self.board[i] = user.name
-                    score = self.mini_max(self.board, depth + 1, False, helper.Player.X if user == helper.Player.O else helper.Player.O)
-                    self.board[i] = " "
-                    best_score = max(score, best_score)
+                if depth > self.level:
+                    return depth
+
+                if table[i] == " ":
+                    table[i] = user.name
+
+                    best_score = max(best_score, self.mini_max(table, depth + 1, False,\
+                    helper.Player.X if user == helper.Player.O else helper.Player.O))
+
+                    table[i] = " "
             return best_score
         else:
-            best_score = float('inf')
+            best_score = 1000
             for i in range(self.n ** 2):
-                if i >= self.level:
-                    return best_score
-                if self.board[i] == " ":
-                    self.board[i] = user.name
-                    score = self.mini_max(self.board, depth + 1, True, helper.Player.X if user == helper.Player.O else helper.Player.O)
-                    self.board[i] = " "
-                    best_score = min(score, best_score)
+                if depth > self.level:
+                    return -depth
+
+                if table[i] == " ":
+                    table[i] = user.name
+
+                    best_score = min(best_score, self.mini_max(table, depth + 1, True,\
+                    helper.Player.X if user == helper.Player.O else helper.Player.O))
+
+                    table[i] = " "
             return best_score
 
     def check_line(self, start, step, length):
@@ -81,3 +85,16 @@ class mini_max():
         
         # Game should continue
         return resume
+    
+    def bestmove(self, table, user):
+        best_score = -1000
+        best_move = None
+        for i in range(self.n ** 2):
+            if table.board[i] == " ":
+                table.place(i, user)
+                score = self.mini_max(table.board, 0, True, helper.Player.O)
+                table.board[i] = " "
+                if score > best_score:
+                    best_score = score
+                    best_move = i
+        return best_move
