@@ -73,4 +73,4 @@ class board:
         if self.board[loc] == ' ':
             self.board[loc] = user
         else:
-            raise ValueError(f"Invalid place loaction")
+            raise ValueError(f"Invalid place loaction {loc}")

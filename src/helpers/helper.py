@@ -16,7 +16,7 @@ class Player(Enum):
 
     @classmethod
     def current(cls):
-        return cls.current_player
+        return cls.current_player.name
 
 
 class end_game:
