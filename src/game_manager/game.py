@@ -5,7 +5,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from helpers import helper
 from board_manager import board as b
-from level_manager import level
 from game_manager import mini_max
 
 resume = 1

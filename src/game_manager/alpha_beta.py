@@ -1,5 +1,8 @@
 #game_manager/alpha_beta
 
+#EXMAPLE FOR LEANRING
+#Not Implemented
+
 class AlphaBeta:
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
