@@ -11,7 +11,7 @@ def main():
     myPlayer.initialize()
     print(myPlayer.current())
     myPlayer.switch()
-    print(myPlayer.current().name)
+    print(myPlayer.current())
 
 
 if __name__ == "__main__":

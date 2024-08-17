@@ -37,10 +37,10 @@ class board:
                             print('| ', end='')
             print()
 
-    def example_board(self, rows):
+    def example_board(self):
         print(f"Player 1 is X, Computer is O")
         print(f"Enter the number of the place you want to go")
-        print(f"EXAMPLE {rows}X{rows} BOARD")
+        print(f"EXAMPLE {self._size}X{self._size} BOARD")
         temp = 1
         trig = False
         for row in range((self._size*2) + 1):

@@ -1,4 +1,7 @@
 #game_manager/game.py
+
+#old game class that didnt meet the requirments :/
+
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -10,6 +13,8 @@ from game_manager import mini_max
 resume = 1
 tie = 0
 win = 2
+
+#Move into main
 
 class game:
     def __init__(self, cur_level, tog):

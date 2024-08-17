@@ -14,7 +14,7 @@ score_human = -10
 score_comp = 10
 
 class mini_max():
-    def __init__(self,depth, stage):
+    def __init__(self, depth, stage):
         self.n = stage
         self.level = depth
         self.mini = float('inf')
@@ -22,7 +22,7 @@ class mini_max():
         self.mini_index = None
         self.maxi_index = None
 
-    def mini_max(self, table, depth, is_maximizing, user):
+    def mini_max(self, table, depth, is_maximizing, user, alpha, beta):
         result = self.check_win(table)
 
         if result == win:
@@ -38,11 +38,16 @@ class mini_max():
 
                 if table[i] == " ":
                     table[i] = user.name
+                    score = self.mini_max(table, depth + 1, False,\
+                    helper.Player.X if user == helper.Player.O else helper.Player.O, alpha, beta)
 
-                    best_score = max(best_score, self.mini_max(table, depth + 1, False,\
-                    helper.Player.X if user == helper.Player.O else helper.Player.O))
+                    best_score = max(best_score, score)
+                    alpha = max(alpha, score)
 
                     table[i] = " "
+                    if beta <= alpha:
+                        break
+
             return best_score
         else:
             best_score = 1000
@@ -52,11 +57,14 @@ class mini_max():
 
                 if table[i] == " ":
                     table[i] = user.name
+                    score = self.mini_max(table, depth + 1, True,\
+                    helper.Player.X if user == helper.Player.O else helper.Player.O, beta, alpha)
 
-                    best_score = min(best_score, self.mini_max(table, depth + 1, True,\
-                    helper.Player.X if user == helper.Player.O else helper.Player.O))
-
+                    best_score = min(best_score, score)
+                    beta = min(beta, score)
                     table[i] = " "
+                    if beta <= alpha:
+                        break
             return best_score
 
     def check_line(self, start, step, length):
@@ -92,7 +100,7 @@ class mini_max():
         for i in range(self.n ** 2):
             if table.board[i] == " ":
                 table.place(i, user)
-                score = self.mini_max(table.board, 0, True, helper.Player.O)
+                score = self.mini_max(table.board, 0, True, helper.Player.O, -1000, 1000)
                 table.board[i] = " "
                 if score > best_score:
                     best_score = score

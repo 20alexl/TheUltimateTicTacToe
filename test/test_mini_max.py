@@ -11,12 +11,14 @@ def main():
     myUser.initialize()
     
     myBoard = board.board(3)
-    myBoard.place(4, myUser.current())
-    myBoard.place(5, myUser.current())
+    myBoard.place(3, myUser.current())
+    myBoard.place(6, myUser.current())
+    myBoard.place(8, myUser.current())
 
-    myMiniMax = m.mini_max(3, 3)
+
+    myMiniMax = m.mini_max(4, 3)
     place = myMiniMax.bestmove(myBoard, myUser.current())
-    print(place)
+    print(place + 1)
     myUser.switch()
     myBoard.place(place, myUser.current())
     myBoard.print_board()
